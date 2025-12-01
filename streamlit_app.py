@@ -5,12 +5,18 @@ from openai import AzureOpenAI
 
 # Load environment variables
 load_dotenv()
-azure_oai_endpoint = os.getenv("AZURE_OAI_ENDPOINT")
-azure_oai_key = os.getenv("AZURE_OAI_KEY")
-azure_oai_deployment = os.getenv("AZURE_OAI_DEPLOYMENT")
-azure_search_endpoint = os.getenv("AZURE_OAI_AISEARCH_URL")
-azure_search_key = os.getenv("AZURE_OAI_AISEARCH_KEY")
-azure_search_index = os.getenv("AZURE_OAI_AISEARCH_INDEX", "margiestravel")
+
+def get_env_var(var_name, default=None):
+    if var_name in st.secrets:
+        return st.secrets[var_name]
+    return os.getenv(var_name, default)
+
+azure_oai_endpoint = get_env_var("AZURE_OAI_ENDPOINT")
+azure_oai_key = get_env_var("AZURE_OAI_KEY")
+azure_oai_deployment = get_env_var("AZURE_OAI_DEPLOYMENT")
+azure_search_endpoint = get_env_var("AZURE_OAI_AISEARCH_URL")
+azure_search_key = get_env_var("AZURE_OAI_AISEARCH_KEY")
+azure_search_index = get_env_var("AZURE_OAI_AISEARCH_INDEX", "margiestravel")
 
 # Initialize Client
 client = AzureOpenAI(
